@@ -1,8 +1,10 @@
 package org.yearup.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.yearup.data.CategoryDao;
 import org.yearup.data.ProductDao;
 import org.yearup.models.Category;
@@ -14,20 +16,36 @@ import java.util.List;
 // add the annotation to make this controller the endpoint for the following url
     // http://localhost:8080/categories
 // add annotation to allow cross site origin requests
+@RestController
+@CrossOrigin
 public class CategoriesController
 {
     private CategoryDao categoryDao;
-    private ProductDao productDao;
+   // private ProductDao productDao;
 
 
     // create an Autowired controller to inject the categoryDao and ProductDao
 
     // add the appropriate annotation for a get action
+    @Autowired
+    public CategoriesController(CategoryDao categoryDao){
+        this.categoryDao = categoryDao;
+
+    }
+
+    // add the appropriate annotation for a get action
+    @RequestMapping(path = "/categories", method = RequestMethod.GET)
+    @PreAuthorize("permitAll()")
     public List<Category> getAll()
     {
-        // find and return all categories
-        return null;
-    }
+        try {
+            // find and return all categories
+            return categoryDao.getAllCategories();
+        }  catch(Exception ex)
+        {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+        }
+        }
 
     // add the appropriate annotation for a get action
     public Category getById(@PathVariable int id)
