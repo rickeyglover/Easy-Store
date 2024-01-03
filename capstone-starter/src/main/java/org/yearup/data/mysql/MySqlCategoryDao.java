@@ -33,7 +33,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
             while (row.next())
             {
                 Category category = mapRow(row);
-                category.add(category);
+                categories.add(category);
             }
         }
         catch (SQLException e)
@@ -42,7 +42,6 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         }
 
         return categories;
-        // get all categories
     }
 
     @Override
