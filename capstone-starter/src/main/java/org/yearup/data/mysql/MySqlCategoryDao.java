@@ -42,6 +42,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         }
 
         return categories;
+
     }
 
     @Override
