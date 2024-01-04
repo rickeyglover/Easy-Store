@@ -31,6 +31,7 @@ public class ShoppingCartController {
     @GetMapping
     public ShoppingCart getCart(Principal principal) {
         try {
+
             String userName = principal.getName();
             User user = userDao.getByUserName(userName);
             int userId = user.getId();
@@ -45,6 +46,10 @@ public class ShoppingCartController {
     @PostMapping("/products/add/{productId}")
     public void addProductToCart(Principal principal, @PathVariable int productId) {
         try {
+            if (principal == null) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+            }
+
             String userName = principal.getName();
             User user = userDao.getByUserName(userName);
             int userId = user.getId();
