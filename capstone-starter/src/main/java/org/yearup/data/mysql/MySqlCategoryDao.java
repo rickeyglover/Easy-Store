@@ -15,6 +15,7 @@ import java.util.List;
 @Component
 public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
 {
+
     public MySqlCategoryDao(DataSource dataSource)
     {
         super(dataSource);
