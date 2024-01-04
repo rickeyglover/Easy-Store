@@ -13,34 +13,26 @@ import org.yearup.models.Product;
 import java.util.List;
 
 // add the annotations to make this a REST controller
-<<<<<<< HEAD
-=======
 // add the annotation to make this controller the endpoint for the following url
     // http://localhost:8080/categories
 // add annotation to allow cross site origin requests
->>>>>>> ab48118a98168681d5101ab55de2fd153afca83d
 @RestController
+@RequestMapping("categories")
 @CrossOrigin
 public class CategoriesController
 {
     private CategoryDao categoryDao;
-   // private ProductDao productDao;
+    private ProductDao productDao;
 
 
     // create an Autowired controller to inject the categoryDao and ProductDao
 
     // add the appropriate annotation for a get action
     @Autowired
-<<<<<<< HEAD
     public CategoriesController(CategoryDao categoryDao, ProductDao productDao ){
         this.categoryDao = categoryDao;
         this.productDao = productDao;
     }
-=======
-    public CategoriesController(CategoryDao categoryDao){
-        this.categoryDao = categoryDao;
-
-    }
 
     // add the appropriate annotation for a get action
     @RequestMapping(path = "/categories", method = RequestMethod.GET)
@@ -55,21 +47,7 @@ public class CategoriesController
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
         }
->>>>>>> ab48118a98168681d5101ab55de2fd153afca83d
 
-    // add the appropriate annotation for a get action
-    @RequestMapping(path = "/categories", method = RequestMethod.GET)
-    @PreAuthorize("permitAll()")
-    public List<Category> getAll()
-    {
-        try {
-            // find and return all categories
-            return categoryDao.getAllCategories();
-        }  catch(Exception ex)
-        {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
-        }
-    }
 
     // add the appropriate annotation for a get action
     @RequestMapping(path ="/categories/{id}", method = RequestMethod.GET)
@@ -117,6 +95,18 @@ public class CategoriesController
     public void deleteCategory(@PathVariable int id)
     {
         // delete the category by id
-        categoryDao.delete(id);
+        try
+        {
+            var category = categoryDao.getById(id);
+
+            if(category == null)
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+            categoryDao.delete(id);
+        }
+        catch(Exception ex)
+        {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+        }
     }
 }
