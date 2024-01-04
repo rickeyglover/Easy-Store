@@ -43,25 +43,25 @@ public class ShoppingCartController {
         }
     }
 
-    @PostMapping("/products/add/{productId}")
-    public void addProductToCart(Principal principal, @PathVariable int productId) {
-        try {
-            if (principal == null) {
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
-            }
-
-            String userName = principal.getName();
-            User user = userDao.getByUserName(userName);
-            int userId = user.getId();
-
-            // You may want to validate the existence of the product before adding it to the cart
-            int quantity = 1; // Set the initial quantity (you can modify this based on your needs)
-
-            shoppingCartDao.addProductToCart(userId, productId, quantity);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.", e);
-        }
-    }
+//    @PostMapping("/products/add/{productId}")
+//    public void addProductToCart(Principal principal, @PathVariable int productId) {
+//        try {
+//            if (principal == null) {
+//                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+//            }
+//
+//            String userName = principal.getName();
+//            User user = userDao.getByUserName(userName);
+//            int userId = user.getId();
+//
+//            // You may want to validate the existence of the product before adding it to the cart
+//            int quantity = 1; // Set the initial quantity (you can modify this based on your needs)
+//
+//            shoppingCartDao.addToCart(userId, productId, quantity);
+//        } catch (Exception e) {
+//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.", e);
+//        }
+//    }
 
     @PutMapping("/products/update/{productId}")
     public void updateProductInCart(Principal principal, @PathVariable int productId, @RequestBody ShoppingCartItem item) {

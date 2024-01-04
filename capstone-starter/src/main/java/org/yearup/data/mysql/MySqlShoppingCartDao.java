@@ -25,7 +25,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
     public ShoppingCart getByUserId(int userId) {
         String sql = "SELECT sc.*, p.name, p.price, p.category_id, p.description, p.color, p.stock, p.featured, p.image_url " +
                 "FROM shopping_cart sc " +
-                "JOIN product p ON sc.product_id = p.product_id " +
+                "JOIN products p ON sc.product_id = p.product_id " +
                 "WHERE sc.user_id = ?";
 
         try (Connection connection = getConnection()) {
@@ -44,19 +44,19 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
     }
 
     @Override
-    public void addProductToCart(int userId, int productId, int quantity) {
+    public void addToCart(int userId, ShoppingCartItem cartItem) {
         try (Connection connection = getConnection()) {
             // Check if the product is already in the cart
-            if (isProductInCart(userId, productId)) {
+            if (isProductInCart(userId, cartItem.getProductId())) {
                 // If the product is in the cart, update the quantity
-                updateProductQuantity(userId, productId, quantity);
+                updateProductQuantity(userId, cartItem.getProductId(), cartItem.getQuantity());
             } else {
                 // If the product is not in the cart, add it
                 String sql = "INSERT INTO shopping_cart (user_id, product_id, quantity) VALUES (?, ?, ?)";
                 try (PreparedStatement statement = connection.prepareStatement(sql)) {
                     statement.setInt(1, userId);
-                    statement.setInt(2, productId);
-                    statement.setInt(3, quantity);
+                    statement.setInt(2, cartItem.getProductId());
+                    statement.setInt(3, cartItem.getQuantity());
                     statement.executeUpdate();
                 }
             }
