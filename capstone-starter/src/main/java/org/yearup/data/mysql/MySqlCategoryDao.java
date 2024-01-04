@@ -67,7 +67,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         {
             throw new RuntimeException(e);
         }
-        return null
+        return null;
         // get category by id
     }
 
@@ -95,7 +95,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
                     int orderId = generatedKeys.getInt(1);
 
                     // get the newly inserted category
-                    return getById(categoryId);
+                    return getById(orderId);
                 }
             }
         }
@@ -130,8 +130,8 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
             throw new RuntimeException(e);
         }
     }
-        // update category
-    }
+    // update category
+
 
     @Override
     public void delete(int categoryId)
