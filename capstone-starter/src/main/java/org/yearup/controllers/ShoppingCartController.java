@@ -1,5 +1,6 @@
 package org.yearup.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,6 +21,7 @@ public class ShoppingCartController {
     private final UserDao userDao;
     private final ProductDao productDao;
 
+    @Autowired
     public ShoppingCartController(ShoppingCartDao shoppingCartDao, UserDao userDao, ProductDao productDao) {
         this.shoppingCartDao = shoppingCartDao;
         this.userDao = userDao;
@@ -40,7 +42,7 @@ public class ShoppingCartController {
         }
     }
 
-    @PostMapping("/products/{productId}")
+    @PostMapping("/products/add/{productId}")
     public void addProductToCart(Principal principal, @PathVariable int productId) {
         try {
             String userName = principal.getName();
@@ -56,7 +58,7 @@ public class ShoppingCartController {
         }
     }
 
-    @PutMapping("/products/{productId}")
+    @PutMapping("/products/update/{productId}")
     public void updateProductInCart(Principal principal, @PathVariable int productId, @RequestBody ShoppingCartItem item) {
         try {
             String userName = principal.getName();
