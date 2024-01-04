@@ -9,7 +9,7 @@ public interface ShoppingCartDao
 {
    ShoppingCart getByUserId(int userId);
 
-    void addToCart(int userId, ShoppingCartItem cartItem);
+    void addToCart(int userId, ShoppingCartItem cartItem, int productId);
 
     // Add a method to update the quantity of a product in the shopping cart
     void updateProductQuantity(int userId, int productId, int quantity);

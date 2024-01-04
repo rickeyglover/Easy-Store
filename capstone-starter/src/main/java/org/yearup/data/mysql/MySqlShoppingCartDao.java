@@ -1,6 +1,7 @@
 package org.yearup.data.mysql;
 
 import org.springframework.stereotype.Component;
+import org.yearup.data.ProductDao;
 import org.yearup.data.ShoppingCartDao;
 import org.yearup.models.Product;
 import org.yearup.models.ShoppingCart;
@@ -18,6 +19,7 @@ import java.util.List;
 @Component
 public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
 
+    public MySqlProductDao dao;
 
     public MySqlShoppingCartDao(DataSource dataSource) {
         super(dataSource);
@@ -51,23 +53,27 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
     }
 
     @Override
-    public void addToCart(int userId, ShoppingCartItem cartItem) {
+    public void addToCart(int userId, ShoppingCartItem cartItem, int productId) {
 
-        Product product = new Product();
+//        Product product = new Product();
+
 
         try (Connection connection = getConnection()) {
             // Check if the product is already in the cart
-            if (isProductInCart(userId, cartItem.getProductId())) {
+            if (isProductInCart(userId, productId)){
                 // If the product is in the cart, update the quantity
-                updateProductQuantity(userId, cartItem.getProductId(), cartItem.getQuantity());
+                updateProductQuantity(userId, productId, cartItem.getQuantity());
             } else {
                 // If the product is not in the cart, add it
                 String sql = "INSERT INTO shopping_cart (user_id, product_id, quantity) VALUES (?, ?, ?)";
                 try (PreparedStatement statement = connection.prepareStatement(sql)) {
                     statement.setInt(1, userId);
-                    statement.setInt(2, cartItem.getProductId());
+                    statement.setInt(2, productId);
                     statement.setInt(3, cartItem.getQuantity());
                     statement.executeUpdate();
+
+//                    Product product = dao.getById()
+
                 }
             }
         } catch (SQLException e) {

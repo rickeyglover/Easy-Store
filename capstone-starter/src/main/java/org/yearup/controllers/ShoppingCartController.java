@@ -60,7 +60,7 @@ public class ShoppingCartController {
             // You may want to validate the existence of the product before adding it to the cart
             int quantity = 1; // Set the initial quantity (you can modify this based on your needs)
 
-            shoppingCartDao.addToCart(userId, item);
+            shoppingCartDao.addToCart(userId, item, productId);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.", e);
         }
