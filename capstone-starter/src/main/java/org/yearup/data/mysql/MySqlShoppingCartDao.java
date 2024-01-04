@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
@@ -32,19 +34,27 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, userId);
 
-            ResultSet row = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
+            ShoppingCart shoppingCart = new ShoppingCart();
 
-            if (row.next()) {
-                return mapRow(row);
+            while (resultSet.next()) {
+                ShoppingCartItem shoppingCartItem = mapRow(resultSet);
+
+                // Add the item to the ShoppingCart using the product ID as the key
+                shoppingCart.add(shoppingCartItem);
             }
+
+            return shoppingCart;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
     public void addToCart(int userId, ShoppingCartItem cartItem) {
+
+        Product product = new Product();
+
         try (Connection connection = getConnection()) {
             // Check if the product is already in the cart
             if (isProductInCart(userId, cartItem.getProductId())) {
@@ -103,9 +113,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
         }
     }
 
-    protected static ShoppingCart mapRow(ResultSet row) throws SQLException {
-        ShoppingCart cart = new ShoppingCart();
-
+    protected static ShoppingCartItem mapRow(ResultSet row) throws SQLException {
         int productId = row.getInt("product_id");
         String name = row.getString("name");
         BigDecimal price = row.getBigDecimal("price");
@@ -123,8 +131,6 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
         item.setProduct(product);
         item.setQuantity(quantity);
 
-        cart.add(item);
-
-        return cart;
+        return item;
     }
 }
