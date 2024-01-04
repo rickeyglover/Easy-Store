@@ -22,21 +22,21 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
 
     @Override
     public ShoppingCart getByUserId(int userId) {
-        String sql = "SELECT * FROM shopping_cart WHERE user_id = ?";
-        try (Connection connection = getConnection())
-        {
+        String sql = "SELECT sc.*, p.name, p.price, p.category_id, p.description, p.color, p.stock, p.featured, p.image_url " +
+                "FROM shopping_cart sc " +
+                "JOIN product p ON sc.product_id = p.product_id " +
+                "WHERE sc.user_id = ?";
+
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, userId);
 
             ResultSet row = statement.executeQuery();
 
-            if (row.next())
-            {
+            if (row.next()) {
                 return mapRow(row);
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return null;
