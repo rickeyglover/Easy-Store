@@ -107,7 +107,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
         }
     }
 
-    private boolean isProductInCart(int userId, int productId) throws SQLException {
+    public boolean isProductInCart(int userId, int productId) throws SQLException {
         String sql = "SELECT * FROM shopping_cart WHERE user_id = ? AND product_id = ?";
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {

@@ -66,15 +66,21 @@ public class ShoppingCartController {
         }
     }
 
-    @PutMapping("/products/update/{productId}")
+    @PutMapping("/products/{productId}")
     public void updateProductInCart(Principal principal, @PathVariable int productId, @RequestBody ShoppingCartItem item) {
         try {
             String userName = principal.getName();
             User user = userDao.getByUserName(userName);
             int userId = user.getId();
 
+
+            if(shoppingCartDao.isProductInCart(userId, productId)) {
             // Use the shoppingCartDao to update the quantity of the specified product in the cart
-            shoppingCartDao.updateProductQuantity(userId, productId, item.getQuantity());
+            shoppingCartDao.updateProductQuantity(userId, productId, item.getQuantity());}
+            else{
+                //System.out.println("Sorry, item is not already currently in cart to be updated");
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Sorry, item is not already currently in cart to be updated");
+            }
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.", e);
         }

@@ -33,7 +33,7 @@ public class CategoriesController
     }
 
     // add the appropriate annotation for a get action
-    @RequestMapping(path = "/categories", method = RequestMethod.GET)
+    @GetMapping("")
     @PreAuthorize("permitAll()")
     public List<Category> getAll()
     {
@@ -48,7 +48,7 @@ public class CategoriesController
 
 
     // add the appropriate annotation for a get action
-    @RequestMapping(path ="/categories/{id}", method = RequestMethod.GET)
+    @GetMapping()
     public Category getById(@PathVariable int id)
     {
         // get the category by id
@@ -65,7 +65,7 @@ public class CategoriesController
 
 
     // add annotation to call this method for a POST action
-    @PostMapping("/categories")
+    @PostMapping()
     // add annotation to ensure that only an ADMIN can call this function
     @PreAuthorize("hasRole('ADMIN')")
     public Category addCategory(@RequestBody Category category)
@@ -75,7 +75,7 @@ public class CategoriesController
     }
 
     // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
-    @PutMapping("/categories/{id}")
+    @PutMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
     // add annotation to ensure that only an ADMIN can call this function
 
@@ -87,7 +87,7 @@ public class CategoriesController
 
 
     // add annotation to call this method for a DELETE action - the url path must include the categoryId
-    @DeleteMapping("/categories/{id}")
+    @DeleteMapping("{id}")
     // add annotation to ensure that only an ADMIN can call this function
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteCategory(@PathVariable int id)
