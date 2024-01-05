@@ -70,20 +70,20 @@ The following outlines changes made in the `search` method of the `MySqlProductD
     statement.setInt(1, categoryId);
     statement.setInt(2, categoryId);
     statement.setBigDecimal(3, minPrice);
-    statement.setBigDecimal(4, minPrice);
-    statement.setString(5, color);
-    statement.setString(6, color);
-    ```
-- **First Version:**
-    ```java
-    statement.setInt(1, categoryId);
-    statement.setInt(2, categoryId);
-    statement.setBigDecimal(3, minPrice);
     statement.setBigDecimal(4, maxPrice);
     statement.setBigDecimal(5, minPrice);
     statement.setBigDecimal(6, maxPrice);
     statement.setString(7, color);
     statement.setString(8, color);
+    ```
+    - **First Version:**
+    ```java
+    statement.setInt(1, categoryId);
+    statement.setInt(2, categoryId);
+    statement.setBigDecimal(3, minPrice);
+    statement.setBigDecimal(4, minPrice);
+    statement.setString(5, color);
+    statement.setString(6, color);
     ```
     - **Changes:** Adjusted parameter settings within the `PreparedStatement` for `minPrice` and `maxPrice` in the second version.
 
@@ -93,8 +93,6 @@ The following outlines changes made in the `search` method of the `MySqlProductD
 
 #### Conclusion
 The changes in the first version diverge from the second version in SQL query logic and parameter handling, potentially impacting the accuracy and expected behavior of product retrieval functionality.
-
-Feel free to tailor or expand upon this README-style documentation to suit your specific needs or context!
 
 ## Phase 3:
 [Add relevant information for Phase 3 here.]
