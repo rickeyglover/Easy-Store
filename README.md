@@ -7,6 +7,7 @@ The goal of this project was to resolve bugs and implement new feautures into an
 
 The Categogories part of the site was not loading properly, thuus some code needed to be added to implemented to fix the api connections grabbing the specified controllers from the database.
 
+![image](https://github.com/scrutch93/Easy-Store/assets/80648971/3ee98504-7635-48c4-9eae-586fb3c3e76e)
 
 
 
