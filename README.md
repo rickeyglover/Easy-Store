@@ -46,14 +46,10 @@ object with the values.
 
 ## Phase 2: Bug resolution:
 
-Certainly! Here's an outline in a README format to summarize the changes made from the second code snippet to the first one:
-
----
-
 # MySQL Product Search Functionality: Code Changes Overview
 
 ## Description
-The following document outlines the changes made in the `search` method of the `MySqlProductDao` class related to product retrieval functionality.
+The following  outlines the changes made in the `search` method of the `MySqlProductDao` class related to product retrieval functionality.
 
 ## Changes Made
 ### SQL Query Logic
