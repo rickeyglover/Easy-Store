@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class ShoppingCartItem
 {
-    private Product product = null;
+    private Product product;
     private int quantity = 1;
     private BigDecimal discountPercent = BigDecimal.ZERO;
 
@@ -44,7 +44,12 @@ public class ShoppingCartItem
     @JsonIgnore
     public int getProductId()
     {
-        return this.product.getProductId();
+        // Check if product is not null before invoking its methods
+        if (this.product != null) {
+            return this.product.getProductId();
+        } else {
+            throw new IllegalStateException("Product is null. Cannot retrieve productId.");
+        }
     }
 
     public BigDecimal getLineTotal()
