@@ -1,76 +1,71 @@
-## User Story
+# User Story
 
-The goal of this project was to resolve bugs and implement new feautures into an ecommerce store.
-
+This project aimed to enhance an ecommerce store by addressing existing bugs and incorporating new features.
 
 ## Phase 1: Resolving Categories
 
-The Categogories part of the site was not loading properly, thuus some code needed to be added to implemented to fix the api connections grabbing the specified controllers from the database.
+The Categories section of the site was experiencing loading issues, necessitating the addition of code to rectify API connections and fetch the specified controllers from the database.
 
 ![image](https://github.com/scrutch93/Easy-Store/assets/80648971/3ee98504-7635-48c4-9eae-586fb3c3e76e)
 
+### Category Operations
 
+#### List Categories
+- Creates an ArrayList named "categories" to store retrieved categories.
+- Defines an SQL query to select all columns from the categories table.
+- Establishes a connection, prepares a statement with the SQL query, and executes it to return the list of categories.
 
-list categories
-Starts by creating an ArrayList named categories to store the retrieved categories. Then
-we define an SQL query to select all cloumns from the categories table with the SQL query.
-Then inside the try method we establish a connection. Then we prepare a statement with the 
-SQL query and use "ResultSet" to execute the query. Then we return the list of categories.
+#### getById
+- Retrieves a category based on its ID in the database.
+- Uses a SQL query to select a category by the provided ID.
+- Executes the query, maps the results to a Category row in the database using mapRow, and returns the retrieved category or null if not found.
 
-getById
-This method retrieves a category based on it's ID in the database. Then it uses a SQL 
-query to select a category by the provided id. Then we use the "ResultSet" to execute to
-the query and maps the results to a row in Category in the database using mapRow. Then it
-returns the retrieved category or null if not found.
+#### create
+- Inserts a new category into the database.
+- Prepares an SQL statement for insertion with name, ID, and description.
+- Executes the query, retrieves the auto-generated keys with the new created ID, and returns the inserted category.
 
-create
-This method inserts a new category into the database. Then it prepares and SQL statement 
-for the insertion that includes the name, id and description. Then it executes the query 
-and retrieves the auto-generated keys that includes the new created id. Then it returns the 
-inserted category. 
+#### update
+- Updates an existing category in the database based on its ID.
+- Prepares an SQL update query to set new values for the category name, ID, and description.
+- Executes the update query.
 
-update
-This method updates an existing category in the databse based on it's id. It prepares a SQL
-update query to set new values for the category name, id and description. Then executes the 
-update query. 
+#### delete
+- Deletes a category from the database based on its ID.
+- Prepares an SQL delete query and executes it.
 
-delete
-This method deletes a category from the database based on it's id. Then it prepares a 
-SQL delete query and executes it. 
+#### mapRow
+- Takes a "ResultSet" representing a row from the database and maps it to a "Category."
+- Extracts category ID, name, and description from the ResultSet to create a Category object with the values.
 
-mapRow
-This takes a "ResultSet" that represents a row from the database and maps it to "Category".
-It takes the category id, name and description from the ResultSet and creates a Category
-object with the values.
+## Phase 2: Bug resolution
 
+### MySQL Product Search Functionality: Code Changes Overview
 
-## Phase 2: Bug resolution:
+#### Description
+The following outlines changes made in the `search` method of the `MySqlProductDao` class related to product retrieval functionality.
 
-# MySQL Product Search Functionality: Code Changes Overview
+#### Changes Made
 
-## Description
-The following  outlines the changes made in the `search` method of the `MySqlProductDao` class related to product retrieval functionality.
-
-## Changes Made
-### SQL Query Logic
-- **Second Version (from the second snippet):**
+##### SQL Query Logic
+- **Second Version:**
     ```java
     "SELECT * FROM products " +
     "WHERE (category_id = ? OR ? = -1) " +
     "AND (price <= ? OR ? = -1) " +
     "AND (color = ? OR ? = '') ";
     ```
-- **First Version (from the first snippet):**
+- **First Version:**
     ```java
     "SELECT * FROM products " +
     "WHERE (category_id = ? OR ? = -1) " +
     "AND ((price >= ? AND price <= ?) OR (? = -1 AND ? = -1)) " +
     "AND (color = ? OR ? = '') ";
     ```
-    - **Changes:** The SQL query logic related to price range filtering was modified to a simpler structure in the second version, whereas the first version used a more complex but potentially more precise logic.
+    - **Changes:** Modified the SQL query logic related to price range filtering to a simpler structure in the second version.
 
-### Parameter Binding in PreparedStatement
-- **Second Version (from the second snippet):**
+##### Parameter Binding in PreparedStatement
+- **Second Version:**
     ```java
     statement.setInt(1, categoryId);
     statement.setInt(2, categoryId);
@@ -79,7 +74,7 @@ The following  outlines the changes made in the `search` method of the `MySqlPro
     statement.setString(5, color);
     statement.setString(6, color);
     ```
-- **First Version (from the first snippet):**
+- **First Version:**
     ```java
     statement.setInt(1, categoryId);
     statement.setInt(2, categoryId);
@@ -90,21 +85,16 @@ The following  outlines the changes made in the `search` method of the `MySqlPro
     statement.setString(7, color);
     statement.setString(8, color);
     ```
-    - **Changes:** In the first version, parameters were set for `minPrice` and `maxPrice` with a different structure than in the second version, including two occurrences for each, potentially affecting the query execution.
+    - **Changes:** Adjusted parameter settings within the `PreparedStatement` for `minPrice` and `maxPrice` in the second version.
 
-## Impact
-- **SQL Query Logic Changes:**
-    - The alteration in the SQL query logic might affect the accuracy and precision of product retrieval based on the specified criteria.
-- **Parameter Binding Adjustments:**
-    - The changes in parameter settings within the `PreparedStatement` could lead to inconsistencies or incorrect execution of the query.
+#### Impact
+- **SQL Query Logic Changes:** Alteration might affect the accuracy and precision of product retrieval.
+- **Parameter Binding Adjustments:** Changes could lead to inconsistencies or incorrect query execution.
 
-## Conclusion
-The changes introduced in the first version diverge from the second version's structure in SQL query logic and parameter handling, potentially impacting the accuracy and expected behavior of the product retrieval functionality.
-
----
+#### Conclusion
+The changes in the first version diverge from the second version in SQL query logic and parameter handling, potentially impacting the accuracy and expected behavior of product retrieval functionality.
 
 Feel free to tailor or expand upon this README-style documentation to suit your specific needs or context!
 
-
-
 ## Phase 3:
+[Add relevant information for Phase 3 here.]
